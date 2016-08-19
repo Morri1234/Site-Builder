@@ -218,18 +218,20 @@ class AlmatySiteBuilder:
 
 
     def getCoordinates(self):
-        layer = self.getLegendLayerByName()
-        features = layer.getFeatures()
+        layer1= self.getLegendLayerByName()
+        features = layer1.getFeatures()
         print features
 
         x = []
         y = []
+        gridsize = []
 
 
         for feat in features:
             attrs = feat.attributes()
             x.append(attrs[0])
             y.append(attrs[1])
+            gridsize.append(attrs[2])
 
         print x
         print y
@@ -260,6 +262,24 @@ class AlmatySiteBuilder:
         pr.addFeatures([line3])
         layer.updateExtents()
         QgsMapLayerRegistry.instance().addMapLayers([layer])
+
+
+
+        cellsizeX =  gridsize[0]
+        cellsizeY = gridsize[1]
+
+        crs = "EPSG:32643"
+        input = layer1
+        xmin = (input.extent().xMinimum())  # extract the minimum x coord from our layer
+        xmax = (input.extent().xMaximum())  # extract our maximum x coord from our layer
+        ymin = (input.extent().yMinimum())  # extract our minimum y coord from our layer
+        ymax = (input.extent().yMaximum())  # extract our maximum y coord from our layer
+        # prepare the extent in a format the VectorGrid tool can interpret (xmin,xmax,ymin,ymax)
+        extent = str(xmin) + ',' + str(xmax) + ',' + str(ymin) + ',' + str(ymax)
+        grid = 'P:/2334_Almaty_Visioning_Forum/2334C_New_City/2334_Design/For_Plugin/sample_grid'
+
+        grid1 = processing.runandload('qgis:vectorgrid', extent, cellsizeX, cellsizeY, 1, grid)
+
 
 
 
