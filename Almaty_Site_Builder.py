@@ -189,8 +189,8 @@ class AlmatySiteBuilder:
 
     def loadProject(self):
 
-        indir = 'P:/2334_Almaty_Visioning_Forum/2334C_New_City/2334_Design'
-        outdir = 'P:/2334_Almaty_Visioning_Forum/2334C_New_City/2334_Design'
+        indir = 'P:/2334_Almaty_Visioning_Forum/2334C_New_City/2334_Design/For_Plugin'
+        outdir = 'P:/2334_Almaty_Visioning_Forum/2334C_New_City/2334_Design/For_Plugin'
         for root, dirs, files in os.walk(indir):
             for file in files:
                 if file.endswith('.csv'):
@@ -216,9 +216,9 @@ class AlmatySiteBuilder:
                 layer = i
         return layer
 
+
     def getCoordinates(self):
         layer = self.getLegendLayerByName()
-
         features = layer.getFeatures()
         print features
 
@@ -261,6 +261,5 @@ class AlmatySiteBuilder:
         layer.updateExtents()
         QgsMapLayerRegistry.instance().addMapLayers([layer])
 
-        lines_from_polys = processing.runalg("qgis:vectorgrid", input1, None)
-        exploded_lines = processing.runalg("qgis:v.mkgrid", lines_from_polys['OUTPUT'], None)
+
 
